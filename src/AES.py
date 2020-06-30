@@ -33,7 +33,9 @@ def encrypt(pwd, input_file_path):
 
     output_file.write(salt)
     output_file.write(cipher_encrypt.iv)
-    output_file.write(hashed_pwd)
+    output_file.write(cipher_encrypt.iv)
+
+    print(len(salt))
 
     buffer = input_file.read(buffer_size)
     while len(buffer) > 0:
@@ -83,18 +85,18 @@ def checkPwd(pwd, path):
     
 if __name__ == "__main__":
 
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-f", "--file", required = True, help = "path to the file")
-    ap.add_argument("-e", "--encrypt", type = bool, default=False)
-    ap.add_argument("-d", "--decrypt", type = bool, default=False)
-    args = vars(ap.parse_args())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--file", required = True, help = "path to the file")
+    parser.add_argument("-e", "--encrypt", action = "store_true", default=False)
+    parser.add_argument("-d", "--decrypt", action = "store_true", default=False)
+    args = parser.parse_args()
 
-    if os.path.isfile(args["file"]):
+    if os.path.isfile(args.file):
         is_file = True
-    if os.path.isdir(args["file"]):
+    if os.path.isdir(args.file):
         is_dir = True
 
-    if args["encrypt"] and (is_file or is_dir):
+    if args.encrypt and (is_file or is_dir):
         while True:
             pwd = getpass.getpass("Set a password : ")
             pwd_conf = getpass.getpass("Confirm password : ")
@@ -105,12 +107,12 @@ if __name__ == "__main__":
 
         if is_file:
             print("Encrypting file...")
-            encrypt(pwd, args["file"])
+            encrypt(pwd, args.file)
             print_green("File is ecrypted.")
             
         elif is_dir:
             files = []
-            for (dirpath, dirnames, filenames) in os.walk(args["file"]):
+            for (dirpath, dirnames, filenames) in os.walk(args.file):
                 for f in filenames:
                     filename = os.path.join(dirpath, f)
                     print("Encrypting " + filename)
@@ -119,13 +121,13 @@ if __name__ == "__main__":
             
 
 
-    elif args["decrypt"] and (is_file or is_dir):
+    elif args.decrypt and (is_file or is_dir):
         if is_file:
             while True:
                 pwd = getpass.getpass("Password? : ")
-                if checkPwd(pwd, args["file"]):
+                if checkPwd(pwd, args.file):
                     print("Decrypting file...")
-                    decrypt(pwd, args["file"])
+                    decrypt(pwd, args.file)
                     break
                 else:
                     print_red("Wrong password. Try again.")
@@ -134,7 +136,7 @@ if __name__ == "__main__":
         elif is_dir:
             pwd = getpass.getpass("Password? : ")
             files = []
-            for (dirpath, dirnames, filenames) in os.walk(args["file"]):
+            for (dirpath, dirnames, filenames) in os.walk(args.file):
                 for f in filenames:
                     filename = os.path.join(dirpath, f)
                     print("Decrypting " + filename)
@@ -146,7 +148,7 @@ if __name__ == "__main__":
                         
 
     elif is_file or is_dir:
-        print_red("-e or -d argument is needed. Please try again.")
+        print_red("-e (encrypt) or -d (decrypt) argument is needed. Please try again.")
 
     else:
         print_red("The path is wrong. Please try again.")
