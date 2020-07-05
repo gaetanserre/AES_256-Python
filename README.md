@@ -20,7 +20,7 @@ and follow instructions on the terminal.
 # Example
 > **Plain text:**  Hello, I'm a test for Gaëtan Serré's Python-AES repository.
 
-> **Encrytped text with the password azerty:** �i����ı�^'�W�
+> **Encrypted text with the password azerty:** �i����ı�^'�W�
 oG>b#�ܨ˔�a=�`7I�/�:`�Q@���}�#$argon2id$v=19$m=33555,t=16,p=2$j2mIiIvDxLHkXifbV6ANb0c+YiPY3KjLlJJhPeNgN0k$KcGduLYkVTVIXCGzuxmTO95R9K+Y6mjy2cdqYfD8iNb8ZTHnPbJ8Uy/3qBwaLXXQyLzdkZVE2zk6N7KeZ6ibDspLxx1qXx8BL3K+SK6PE8mWKYX381GZdQwAR1jvqwVJyjfQvvxrXTk1tVdNndOFtZBR3opZSJRreoW3g8CX85M�u��t��s��!�V_��"I�
 ��D�X�u~�:��SɝQ[���+��Y����]:a�s
 
