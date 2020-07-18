@@ -35,8 +35,6 @@ def encrypt(pwd, input_file_path):
     output_file.write(cipher_encrypt.iv)
     output_file.write(cipher_encrypt.iv)
 
-    print(len(salt))
-
     buffer = input_file.read(buffer_size)
     while len(buffer) > 0:
         ciphered_bytes = cipher_encrypt.encrypt(buffer)
