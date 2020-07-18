@@ -32,7 +32,10 @@ Hello, I'm a test for Gaëtan Serré's Python-AES repository.
 - The next 64 bytes are the hashed password
 - The next bytes are of the encrypted data
 
-
+# Documentation
+- [AES](https://fr.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [scrypt](https://en.wikipedia.org/wiki/Scrypt)
+- [SHA3](https://en.wikipedia.org/wiki/SHA-3)
 
 # Warning
 Please save your password carefully. You will not be able to retrieve your data otherwise.
