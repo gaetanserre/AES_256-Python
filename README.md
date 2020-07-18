@@ -24,7 +24,7 @@ and follow instructions on the terminal.
 > **Plain text:** 
 Hello, I'm a test for Gaëtan Serré's Python-AES repository.
 
-> **Encrypted text with the password azerty (hexadecimal):** 
+> **Encrypted text with the password 'azerty' (hexadecimal):** 
 0x66a7e11a394ecb29d9ab3b92110888118498e766eee47b620aed6e04de5a8ab97cd0a2d15b1ba9b2b5961cac8100aacb7c332770626729465f0f1b1783b63d15cad916de5cf63c35a88cbade36979d9e5dd0cb18cbd4952f188e4cba0277b726bc39df2df8bcba2af9bc3ab9118b7de06fc10c5187f3dd8d8616937bf092bd813a8e13b2b18eb442a10b2f11e96d47906559b6698ef8c405dca922d97d3e1610e14d0627c8ab7ebcd765a87f4d
 
 - The 32 first bytes are the salt used in the SHA3-512 hashing and in the Scrypt's derivation key
