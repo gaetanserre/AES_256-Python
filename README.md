@@ -33,9 +33,9 @@ Hello, I'm a test for Gaëtan Serré's Python-AES repository.
 - The next bytes are of the encrypted data
 
 # Documentation
-- [AES](https://fr.wikipedia.org/wiki/Advanced_Encryption_Standard)
-- [scrypt](https://en.wikipedia.org/wiki/Scrypt)
-- [SHA3](https://en.wikipedia.org/wiki/SHA-3)
+- [AES](https://fr.wikipedia.org/wiki/Advanced_Encryption_Standard){:target="_blank"}
+- [scrypt](https://en.wikipedia.org/wiki/Scrypt){:target="_blank"}
+- [SHA3](https://en.wikipedia.org/wiki/SHA-3){:target="_blank"}
 
 # Warning
 Please save your password carefully. You will not be able to retrieve your data otherwise.
