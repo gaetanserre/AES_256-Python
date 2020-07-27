@@ -112,7 +112,7 @@ if __name__ == "__main__":
             salt = generate_salt()
             key = generate_AES256_key(pwd, salt)
 
-            print("Encrypting file...")
+            print("Encrypting file..")
             encrypt(key, pwd, salt, args.file)
 
             print_green("File is encrypted.")
@@ -145,7 +145,7 @@ if __name__ == "__main__":
                     print("Generating key from password..")
                     key = generate_AES256_key(pwd, salt)
 
-                    print("Decrypting file...")
+                    print("Decrypting file..")
                     decrypt(key, args.file)
 
                     break
