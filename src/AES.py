@@ -133,7 +133,11 @@ if __name__ == "__main__":
                       filename = os.path.join(dirpath, f)
 
                       print("Encrypting " + filename)
-                      encrypt(key, pwd, salt, filename)
+                      
+                      try:
+                          encrypt(key, pwd, salt, filename)
+                      except:
+                          continue
 
                       print_green("File is encrypted.")
                     else:
@@ -177,7 +181,10 @@ if __name__ == "__main__":
                     if checkPwd(pwd, salt, filename):
                         print("Decrypting " + filename)
                         key = generate_AES256_key(pwd, salt)
-                        decrypt(key, filename)
+                        try:
+                          decrypt(key, filename)
+                        except:
+                          continue
 
                         print_green("File is decrypted.")
                     else:
