@@ -18,6 +18,9 @@ def print_red(str):
 def print_green(str):
     print(GREEN+str+RESET)
 
+def checkExtension (filepath, ext):
+  _, file_extension = os.path.splitext(filepath)
+  return file_extension == ext
 
 
 def generate_salt():
@@ -121,17 +124,20 @@ if __name__ == "__main__":
             files = []
             for (dirpath, dirnames, filenames) in os.walk(args.file):
                 for f in filenames:
-                    print("Generating key from password..")
+                    if not checkExtension(f, '.aes'):
+                      print("Generating key from password..")
 
-                    salt = generate_salt()
-                    key = generate_AES256_key(pwd, salt)
+                      salt = generate_salt()
+                      key = generate_AES256_key(pwd, salt)
 
-                    filename = os.path.join(dirpath, f)
+                      filename = os.path.join(dirpath, f)
 
-                    print("Encrypting " + filename)
-                    encrypt(key, pwd, salt, filename)
+                      print("Encrypting " + filename)
+                      encrypt(key, pwd, salt, filename)
 
-                    print_green("File is encrypted.")
+                      print_green("File is encrypted.")
+                    else:
+                      print_red(f"{f} already encrypted. Skipping..")
             
 
 
@@ -159,6 +165,10 @@ if __name__ == "__main__":
             files = []
             for (dirpath, dirnames, filenames) in os.walk(args.file):
                 for f in filenames:
+                    if not checkExtension(f, '.aes'):
+                      print_red(f"{f} already decrypted. Skipping..")
+                      continue
+
                     filename = os.path.join(dirpath, f)
                     salt = get_salt_from_file(filename)
 
@@ -171,7 +181,7 @@ if __name__ == "__main__":
 
                         print_green("File is decrypted.")
                     else:
-                        print_red("Wrong password. Ignoring file.")
+                        print_red("Wrong password. Skipping..")
                         
 
     elif is_file or is_dir:
