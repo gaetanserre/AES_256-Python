@@ -174,7 +174,10 @@ if __name__ == "__main__":
                       continue
 
                     filename = os.path.join(dirpath, f)
-                    salt = get_salt_from_file(filename)
+                    try:
+                        salt = get_salt_from_file(filename)
+                    except:
+                        continue
 
                     print("Generating key from password..")
 
