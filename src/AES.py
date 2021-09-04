@@ -1,6 +1,8 @@
 import os
 import argparse
 import getpass
+from itertools import repeat
+from multiprocessing import Pool
 from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES
 from Crypto.Protocol.KDF import scrypt
@@ -90,6 +92,52 @@ def decrypt(key, input_file_path):
     os.remove(input_file_path)
 
 
+def pool_encrypt(f, dirpath, pwd):
+  if not checkExtension(f, '.aes'):
+    print("Generating key from password..")
+
+    salt = generate_salt()
+    key = generate_AES256_key(pwd, salt)
+
+    filename = os.path.join(dirpath, f)
+
+    print("Encrypting " + filename)
+    
+    try:
+        encrypt(key, pwd, salt, filename)
+    except:
+        return
+
+    print_green("File is encrypted.")
+  else:
+    print_red(f"{f} already encrypted. Skipping..")
+
+
+def pool_decrypt(f, dirpath, pwd):
+  if not checkExtension(f, '.aes'):
+    print_red(f"{f} already decrypted. Skipping..")
+    return
+
+  filename = os.path.join(dirpath, f)
+  try:
+      salt = get_salt_from_file(filename)
+  except:
+      return
+
+  print("Generating key from password..")
+
+  if checkPwd(pwd, salt, filename):
+      print("Decrypting " + filename)
+      key = generate_AES256_key(pwd, salt)
+      try:
+        decrypt(key, filename)
+      except:
+        return
+
+      print_green("File is decrypted.")
+  else:
+      print_red("Wrong password. Skipping..")
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -123,27 +171,9 @@ if __name__ == "__main__":
         elif is_dir:
             files = []
             for (dirpath, dirnames, filenames) in os.walk(args.file):
-                for f in filenames:
-                    if not checkExtension(f, '.aes'):
-                      print("Generating key from password..")
-
-                      salt = generate_salt()
-                      key = generate_AES256_key(pwd, salt)
-
-                      filename = os.path.join(dirpath, f)
-
-                      print("Encrypting " + filename)
-                      
-                      try:
-                          encrypt(key, pwd, salt, filename)
-                      except:
-                          continue
-
-                      print_green("File is encrypted.")
-                    else:
-                      print_red(f"{f} already encrypted. Skipping..")
-            
-
+              with Pool(5) as p:
+                p.starmap(pool_encrypt, zip(filenames, repeat(dirpath), repeat(pwd)))
+                
 
     elif args.decrypt and (is_file or is_dir):
         if is_file:
@@ -168,31 +198,9 @@ if __name__ == "__main__":
             pwd = getpass.getpass("Password? : ")
             files = []
             for (dirpath, dirnames, filenames) in os.walk(args.file):
-                for f in filenames:
-                    if not checkExtension(f, '.aes'):
-                      print_red(f"{f} already decrypted. Skipping..")
-                      continue
-
-                    filename = os.path.join(dirpath, f)
-                    try:
-                        salt = get_salt_from_file(filename)
-                    except:
-                        continue
-
-                    print("Generating key from password..")
-
-                    if checkPwd(pwd, salt, filename):
-                        print("Decrypting " + filename)
-                        key = generate_AES256_key(pwd, salt)
-                        try:
-                          decrypt(key, filename)
-                        except:
-                          continue
-
-                        print_green("File is decrypted.")
-                    else:
-                        print_red("Wrong password. Skipping..")
-                        
+                with Pool(5) as p:
+                  p.starmap(pool_decrypt, zip(filenames, repeat(dirpath), repeat(pwd)))
+                    
 
     elif is_file or is_dir:
         print_red("-e (encrypt) or -d (decrypt) argument is needed. Please try again.")
