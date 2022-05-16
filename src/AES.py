@@ -34,11 +34,7 @@ def shred_file(path):
       os.close(fd)
 
   possible_byte = [chr(b).encode("latin1") for b in range(0xFF+1)]
-  zero = possible_byte[0]
-  one = possible_byte[-1]
 
-  shred_pass(lambda: zero)
-  shred_pass(lambda: one)
   shred_pass(lambda: random.choice(possible_byte))
 
 
