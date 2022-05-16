@@ -7,6 +7,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES
 from Crypto.Protocol.KDF import scrypt
 from Crypto.Hash import SHA3_512
+import random
 
 RED = "\033[1;31m"
 GREEN = "\033[0;32m"
@@ -23,6 +24,22 @@ def print_green(str):
 def checkExtension (filepath, ext):
   _, file_extension = os.path.splitext(filepath)
   return file_extension == ext
+
+def shred_file(path):
+  print("Shredding...")
+  def shred_pass(f):
+    for i in range(os.path.getsize(path)):
+      fd = os.open(path, os.O_WRONLY)
+      os.pwrite(fd, f(), i)
+      os.close(fd)
+
+  possible_byte = [chr(b).encode("latin1") for b in range(0xFF+1)]
+  zero = possible_byte[0]
+  one = possible_byte[-1]
+
+  shred_pass(lambda: zero)
+  shred_pass(lambda: one)
+  shred_pass(lambda: random.choice(possible_byte))
 
 
 def generate_salt():
@@ -68,6 +85,7 @@ def encrypt(key, passwd, salt, input_file_path):
 
     input_file.close()
     output_file.close()
+    shred_file(input_file_path)
     os.remove(input_file_path)
 
 
