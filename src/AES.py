@@ -8,6 +8,7 @@ from Crypto.Cipher import AES
 from Crypto.Protocol.KDF import scrypt
 from Crypto.Hash import SHA3_512
 import random
+from tqdm import tqdm
 
 RED = "\033[1;31m"
 GREEN = "\033[0;32m"
@@ -28,7 +29,7 @@ def checkExtension (filepath, ext):
 def shred_file(path):
   print("Shredding...")
   def shred_pass(f):
-    for i in range(os.path.getsize(path)):
+    for i in tqdm(range(os.path.getsize(path))):
       fd = os.open(path, os.O_WRONLY)
       os.pwrite(fd, f(), i)
       os.close(fd)
