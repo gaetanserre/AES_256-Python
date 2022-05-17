@@ -9,6 +9,7 @@ from Crypto.Protocol.KDF import scrypt
 from Crypto.Hash import SHA3_512
 import random
 from tqdm import tqdm
+import subprocess
 
 RED = "\033[1;31m"
 GREEN = "\033[0;32m"
@@ -28,15 +29,9 @@ def checkExtension (filepath, ext):
 
 def shred_file(path):
   print("Shredding...")
-  def shred_pass(f):
-    for i in tqdm(range(os.path.getsize(path))):
-      fd = os.open(path, os.O_WRONLY)
-      os.pwrite(fd, f(), i)
-      os.close(fd)
-
-  possible_byte = [chr(b).encode("latin1") for b in range(0xFF+1)]
-
-  shred_pass(lambda: random.choice(possible_byte))
+  abs_dir = os.path.abspath(os.path.join(__file__, os.pardir))
+  shred_prog = os.path.join(abs_dir, "shredder")
+  subprocess.call([shred_prog, path])
 
 
 def generate_salt():
@@ -109,7 +104,7 @@ def decrypt(key, input_file_path):
 
 def pool_encrypt(f, dirpath, pwd):
   if not checkExtension(f, '.aes'):
-    print("Generating key from password..")
+    print("Generating key from password...")
 
     salt = generate_salt()
     key = generate_AES256_key(pwd, salt)
@@ -125,12 +120,12 @@ def pool_encrypt(f, dirpath, pwd):
 
     print_green("File is encrypted.")
   else:
-    print_red(f"{f} already encrypted. Skipping..")
+    print_red(f"{f} already encrypted. Skipping...")
 
 
 def pool_decrypt(f, dirpath, pwd):
   if not checkExtension(f, '.aes'):
-    print_red(f"{f} already decrypted. Skipping..")
+    print_red(f"{f} already decrypted. Skipping...")
     return
 
   filename = os.path.join(dirpath, f)
@@ -139,7 +134,7 @@ def pool_decrypt(f, dirpath, pwd):
   except:
       return
 
-  print("Generating key from password..")
+  print("Generating key from password...")
 
   if checkPwd(pwd, salt, filename):
       print("Decrypting " + filename)
@@ -151,7 +146,7 @@ def pool_decrypt(f, dirpath, pwd):
 
       print_green("File is decrypted.")
   else:
-      print_red("Wrong password. Skipping..")
+      print_red("Wrong password. Skipping...")
 
 if __name__ == "__main__":
 
@@ -174,11 +169,11 @@ if __name__ == "__main__":
                 print_red("Password doesn't match. Please try again.")
 
         if is_file:
-            print("Generating key from password..")
+            print("Generating key from password...")
             salt = generate_salt()
             key = generate_AES256_key(pwd, salt)
 
-            print("Encrypting file..")
+            print("Encrypting file...")
             encrypt(key, pwd, salt, args.file)
 
             print_green("File is encrypted.")
@@ -197,10 +192,10 @@ if __name__ == "__main__":
                 pwd = getpass.getpass("Password? : ")
 
                 if checkPwd(pwd, salt, args.file):
-                    print("Generating key from password..")
+                    print("Generating key from password...")
                     key = generate_AES256_key(pwd, salt)
 
-                    print("Decrypting file..")
+                    print("Decrypting file...")
                     decrypt(key, args.file)
 
                     break

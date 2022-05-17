@@ -9,6 +9,9 @@ AES-Python encrypts|decrypts a file or every files in a folder (even files in su
 Run `pip3 install -r requirements.txt`
 
 # Usage
+AES_256-Python uses a file-shredder written in C++; You have to compile it
+by running `make` in the root directory of this repository.
+
 Run `python3 AES.py -f [path of the file or folder] -e|d [e for encrypt | d for decrypt]`
 
 and follow instructions on the terminal.
