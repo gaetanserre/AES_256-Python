@@ -7,8 +7,6 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES
 from Crypto.Protocol.KDF import scrypt
 from Crypto.Hash import SHA3_512
-import random
-from tqdm import tqdm
 import subprocess
 
 RED = "\033[1;31m"
