@@ -20,6 +20,7 @@ unsigned int get_size(const char* filename) {
 
 void shred_file(const char* filename, auto f) {
   unsigned int filesize = get_size(filename);
+  char random_bytes[filesize];
   for(int i = 0; i<filesize; i++) {
     int file = open(filename, O_WRONLY);
     char byte = f();    
