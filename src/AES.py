@@ -188,5 +188,5 @@ if __name__ == "__main__":
         for filename in filenames:
           filename = os.path.join(dirpath, filename)
           if not decrypt(pwd, filename):
-            print_red("Wrong password. Skipping file.")
+            print_red(f"Wrong password. Skipping {filename}.")
 
