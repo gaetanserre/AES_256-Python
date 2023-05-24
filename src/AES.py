@@ -174,6 +174,9 @@ if __name__ == "__main__":
       for (dirpath, dirname, filenames) in os.walk(args.file): # Files of each subdirectory
         for filename in filenames:
           filename = os.path.join(dirpath, filename)
+          if checkExtension(filename, ".aes"):
+            print(f"Skipping {filename}")
+            continue
           encrypt(pwd, filename)
   
   elif args.decrypt:
@@ -187,6 +190,9 @@ if __name__ == "__main__":
       for (dirpath, dirname, filenames) in os.walk(args.file): # Files of each subdirectory
         for filename in filenames:
           filename = os.path.join(dirpath, filename)
+          if not checkExtension(filename, ".aes"):
+            print(f"Skipping {filename}")
+            continue
           if not decrypt(pwd, filename):
             print_red(f"Wrong password. Skipping {filename}.")
 
