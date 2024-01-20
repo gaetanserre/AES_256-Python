@@ -1,5 +1,5 @@
 # AES_256-Python
-A file encryption tool written with Python 3 using AES-256, Scrypt and SHA3-512 algorithms.
+A file encryption tool written in Python 3 using AES-256, Scrypt and SHA3-512 algorithms.
 
 AES-Python encrypts|decrypts a file or every files in a folder (even files in subfolders).
 
