@@ -21,7 +21,7 @@ and follow instructions on the terminal.
 2. The password is hashed using SHA3-512 with the same salt than the AES-256 key
 3. Salt, hashed password and the initialisation vector are stored at the beginning of the new encrypted file
 4. Data of the plain file is encrypted through a 65kb buffer and stored into the new encrypted file
-5. The plain file is removed
+5. The plain file is shredded and removed
 
 # Example
 > **Plain text:** 
