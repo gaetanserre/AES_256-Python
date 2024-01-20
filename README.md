@@ -33,7 +33,7 @@ Hello, I'm a test for Gaëtan Serré's Python-AES repository.
 - The 32 first bytes are the salt used in the SHA3-512 hashing and in the Scrypt's derivation key
 - The next 16 bytes are the initialisation vector for AES-256
 - The next 64 bytes are the hashed password
-- The next bytes are the encrypted data
+- The other bytes are the encrypted data
 
 # Documentation
 - [AES](https://fr.wikipedia.org/wiki/Advanced_Encryption_Standard)
