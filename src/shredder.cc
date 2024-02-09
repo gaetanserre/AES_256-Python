@@ -38,13 +38,13 @@ int main(int argc, char** argv) {
     possible_bytes[i] = (char) i;
   }
 
-  // Write 0s
+/*   // Write 0s
   auto f1 = [&](){return possible_bytes[0];};
   shred_file(argv[1], f1);
 
   // Write 1s
   auto f2 = [&](){return possible_bytes[255];};
-  shred_file(argv[1], f2);
+  shred_file(argv[1], f2); */
 
   // Write random bytes
   auto f3 = [&](){return possible_bytes[get_random_index(256)];};
