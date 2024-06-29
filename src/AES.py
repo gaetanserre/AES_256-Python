@@ -34,9 +34,7 @@ def checkExtension(filepath, ext):
 
 def shred_file(path):
     print("Shredding...")
-    abs_dir = os.path.abspath(os.path.join(__file__, os.pardir))
-    shred_prog = os.path.join(abs_dir, "shredder")
-    subprocess.call([shred_prog, path])
+    subprocess.call(["shred", "-u", path])
 
 
 def generate_salt():
@@ -90,7 +88,6 @@ def encrypt_key(key, passwd, salt, input_file_path):
     input_file.close()
     output_file.close()
     shred_file(input_file_path)
-    os.remove(input_file_path)
 
 
 def encrypt(passwd, input_file_path):
