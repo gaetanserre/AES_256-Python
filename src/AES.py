@@ -34,7 +34,7 @@ def checkExtension(filepath, ext):
 
 def shred_file(path):
     print("Shredding...")
-    subprocess.call(["shred", "-u", path])
+    subprocess.call(["shred", "-uz", path])
 
 
 def generate_salt():
