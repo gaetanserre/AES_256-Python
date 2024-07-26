@@ -3,6 +3,8 @@
 #
 
 import os
+import sys
+import random
 import argparse
 import getpass
 import subprocess
@@ -34,8 +36,24 @@ def checkExtension(filepath, ext):
 
 def shred_file(path):
     print("Shredding...")
-    subprocess.call(["shred", "-uz", path])
-
+    
+    if sys.platform.startswith('linux'):
+        print("Shredding for linux..")
+        subprocess.call(["shred", "-uz", path])
+        return 
+    
+    # This is required for Windows and MacOS
+    # Shred command doesnt work with Windows or MacOS
+    if sys.platform.startswith('win32') or sys.platform.startswith('darwin'):
+        print("Shredding for windows..")
+        with open(path, 'r+b') as f:
+            length = os.path.getsize(path)
+            f.seek(0)
+            f.write(bytearray(random.getrandbits(8) for _ in range(length)))
+            f.flush()
+            os.fsync(f.fileno())
+        os.remove(path)
+        
 
 def generate_salt():
     return get_random_bytes(32)
