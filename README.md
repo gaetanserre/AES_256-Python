@@ -35,7 +35,7 @@ Hello, I'm a test for Gaëtan Serré's Python-AES repository.
 - The other bytes are the encrypted data.
 
 # Documentation
-- [AES](https://fr.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [AES](https://en.wikipedia.org/Advanced_Encryption_Standard)
 - [Scrypt](https://en.wikipedia.org/wiki/Scrypt)
 - [SHA3](https://en.wikipedia.org/wiki/SHA-3)
 
